@@ -1,92 +1,94 @@
-import { IDao } from '../../models/index';
-import { DB } from '../index';
+import { IContact } from '../models/index';
+import { IDao } from './IDao';
+import { DB } from './index';
 
 
 /**
- * Class for Product DAO, contains every methods possible on Product collection
- * {@linkcode IProductDao}
+ * Class for Contacts DAO, contains every methods possible on Contacts collection
+ * {@linkcode IContactDao}
  */
-export class ContactDao implements IProductDao {
+export class ContactDao implements IDao<IContact> {
+  get: () => Promise<IContact[]>;
+  getByQuery: (query: any) => Promise<IContact[]>;
 
-
-	/**
+  /**
    * Get one by_id
-	 * @param id
+   * @param id
    * @async
-   * @returns Promise<IProduct | null>
-	 */
-	public async getOne(_id: string): Promise<IProduct | null> {
-		try {
-			const data = await DB.Models.Product.find({ _id }).exec();
-			if (data) {
-				return data[0];
-			}
-			throw new Error('Product not found!');
-		} catch (err) {
-			throw err;
-		}
-	}
+   * @returns Promise<IContact | null>
+   */
+  public async getSingle(_id: string): Promise<IContact | null> {
+  	try {
+  		const data = await DB.Models.Contacts.find({ _id }).exec();
+  		if (data) {
+  			return data[0];
+  		}
+  		throw new Error('Contacts not found!');
+  	} catch (err) {
+  		throw err;
+  	}
+  }
 
 
-	/**
-	 * Get all
+  /**
+   * Get all
    * @async
-   * @returns Promise<IProduct[]>
-	 */
-	public async read(): Promise<IProduct[]> {
-		try {
-			const data = await DB.Models.Product.find({}).exec();
-			return data;
-		} catch (err) {
-			throw err;
-		}
-	}
+   * @returns Promise<IContact[]>
+   */
+  public async read(): Promise<IContact[]> {
+  	try {
+  		const data = await DB.Models.Contacts.find({}).exec();
+  		return data;
+  	} catch (err) {
+  		throw err;
+  	}
+  }
 
 
-	/**
-	 * Create new
+  /**
+   * Create new
    * @async
-	 * @param product
-   * @returns Promise<IProduct>
-	 */
-	public async add(product: IProduct): Promise<IProduct> {
-		try {
-			const newProduct = await new DB.Models.Product(product).save();
-			return newProduct;
-		} catch (err) {
-			throw err;
-		}
-	}
+   * @param Contacts
+   * @returns Promise<IContact>
+   */
+  public async add(Contacts: IContact): Promise<IContact> {
+  	try {
+  		const newContacts = await new DB.Models.Contacts(Contacts).save();
+  		return newContacts;
+  	} catch (err) {
+  		throw err;
+  	}
+  }
 
 
-	/**
-	 * Update one
+  /**
+   * Update one
    * @async
-	 * @param _id
-	 * @param product
-   * @returns Promise<IProduct>
-	 */
-	public async update(_id: string, product: IProduct): Promise<IProduct> {
-		try {
-			await DB.Models.Product.findOneAndUpdate({ _id }, product).exec();
-			return product;
-		} catch (err) {
-			throw err;
-		}
-	}
+   * @param _id
+   * @param Contacts
+   * @returns Promise<IContact>
+   */
+  public async update(_id: string, Contacts: IContact): Promise<IContact> {
+  	try {
+  		await DB.Models.Contacts.findOneAndUpdate({ _id }, Contacts).exec();
+  		return Contacts;
+  	} catch (err) {
+  		throw err;
+  	}
+  }
 
 
-	/**
-	 * Delete one
+  /**
+   * Delete one
    * @async
-	 * @param _id
+   * @param _id
    * @returns Promise<void>
-	 */
-	public async delete(_id: string): Promise<void> {
-		try {
-			await DB.Models.Product.findByIdAndDelete({ _id }).exec();
-		} catch (err) {
-			throw err;
-		}
-	}
+   */
+  public async delete(_id: string): Promise<void> {
+  	try {
+  		await DB.Models.Contacts.findByIdAndDelete({ _id }).exec();
+  	} catch (err) {
+  		throw err;
+  	}
+  }
 }

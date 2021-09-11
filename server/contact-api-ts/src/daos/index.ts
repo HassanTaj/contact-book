@@ -1,5 +1,6 @@
+import { IDao } from './IDao';
 import { connect, connection, Connection } from 'mongoose';
-import { Contact, IContactModel } from '../models/index';
+import { Contact, IContact, IContactModel } from '../models/index';
 
 /** 
  * Interface for defining Model object
@@ -21,24 +22,24 @@ export class DB {
   private models: IModels;
 
   constructor() {
-    try {
-      /**
+  	try {
+  		/**
        * Connecting to mongo db with options: { useNewUrlParser: true, useUnifiedTopology: true }
        */
-      connect(process.env.MONGO_URL as string, { useNewUrlParser: true, useUnifiedTopology: true });
-    } catch (err) {
-      console.error(err);
-    }
-    this.mongoDB = connection;
-    this.mongoDB.on('open', this.connected);
-    this.mongoDB.on('error', this.error);
+  		connect(process.env.MONGO_URL as string, { useNewUrlParser: true, useUnifiedTopology: true });
+  	} catch (err) {
+  		console.error(err);
+  	}
+  	this.mongoDB = connection;
+  	this.mongoDB.on('open', this.connected);
+  	this.mongoDB.on('error', this.error);
 
-    /**
+  	/**
      * Instantiating all the models into an object
      */
-    this.models = { 
-      Contact: new Contact().model 
-    };
+  	this.models = {
+  		Contacts: new Contact().model
+  	};
   }
 
   /**
@@ -46,25 +47,25 @@ export class DB {
    * @returns all the models
    */
   public static get Models(): IModels {
-    if (!DB.instance) {
-      DB.instance = new DB();
-    }
-    return DB.instance.models;
+  	if (!DB.instance) {
+  		DB.instance = new DB();
+  	}
+  	return DB.instance.models;
   }
 
   /**
    * @hidden
    */
   private connected() {
-    console.info('Mongoose has connected');
+  	console.info('Mongoose has connected');
   }
 
   /**
    * @hidden
    */
   private error(error: Error) {
-    console.info('Mongoose has errored', error);
+  	console.info('Mongoose has errored', error);
   }
 }
 
-export { ContactDao, IContactDao } from './ContactDao';
+export { ContactDao } from './ContactDao';

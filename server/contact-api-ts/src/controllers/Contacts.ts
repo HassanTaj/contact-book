@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { ProductDao } from '../daos';
+import { ContactDao } from '../daos/index';
 
 /**
  * Instantiating product DAO object
  */
-const productDao = new ProductDao();
+const productDao = new ContactDao();
 
 module.exports = {
   
@@ -28,7 +28,7 @@ module.exports = {
 	getById: async (req: Request, res: Response, next: any) => {
 		try {
 			const { _id } = req.params;
-			const product = await productDao.getOne(_id);
+			const product = await productDao.getSingle(_id);
 			if (!product) {
 				res.status(404).send(`Product with id: ${_id} not found!`);
 			} else {
