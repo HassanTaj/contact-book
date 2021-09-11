@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("./assets/dark_admin/assets/css/nucleo-icons.css");
+@import url("./assets/dark_admin/assets/css/black-dashboard.css");
+
+$primary-popup-bg: #1d8cf8;
+$text-white: #ffffff;
+
+
+.dropdown-menu {
+  background: $primary-popup-bg;
+}
+
+.dropdown-menu .dropdown-item {
+  color: $text-white;
+}
+.form-control:focus {
+  border-color: $primary-popup-bg;
+  background-color: transparent;
+  box-shadow: none;
+}

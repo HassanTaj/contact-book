@@ -1,0 +1,51 @@
+<div class="col-md-12">
+  <div class="card ">
+    <div class="card-header d-flex justify-content-between">
+      <h4 class="card-title">Contacts</h4>
+      <div>
+        <button class="btn btn-info" routerLink="/contacts/add">Add</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table">
+        <table class="table" id="">
+          <thead class=" text-primary">
+            <tr>
+              <th>
+                #
+              </th>
+              <th>
+                Name
+              </th>
+              <th>
+                Contact
+              </th>
+              <th>
+                City
+              </th>
+              <th class="text-center">
+                Salary
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let contact of contacts">
+              <td>
+                Dakota Rice
+              </td>
+              <td>
+                Niger
+              </td>
+              <td>
+                Oud-Turnhout
+              </td>
+              <td class="text-center">
+                $36,738
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
