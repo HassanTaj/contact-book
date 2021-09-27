@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('./mongoose.js');
-const contactsApi = require('./routes/contacts');
+const baseRouter = require('./routes/index.route');
 
 const app = express();
 
@@ -15,4 +14,4 @@ app.listen(port, () => {
     console.log(`Server 🚀 on port : ${port}`);
 });
 
-app.use('/api/contacts', contactsApi)
+app.use('/api', baseRouter)

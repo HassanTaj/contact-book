@@ -1,82 +1,83 @@
-import { Request, Response } from 'express';
-import { ContactDao } from '../daos/index';
+import { Request, Response } from 'express'
+import { IContact, IContactModel } from '../models/index'
+import { ContactDao } from '../daos/index'
 
 /**
  * Instantiating product DAO object
  */
-const productDao = new ContactDao();
+const productDao = new ContactDao()
 
 module.exports = {
-  
-	/**
-	 * Get all controller
+  /**
+   * Get all controller
    * @async
-	 */
-	get: async (req: Request, res: Response, next: any) => {
-		try {
-			const products = await productDao.read();
-			return res.status(200).send(products);
-		} catch (error) {
-			next(error);
-		}
-	},
+   */
+  get: async (req: Request, res: Response, next: any) => {
+    try {
+      const products = await productDao.read()
+      return res.status(200).send(products)
+    } catch (error) {
+      next(error)
+    }
+  },
 
-	/**
-	 * Get one by _id controller
+  /**
+   * Get one by _id controller
    * @async
-	 */
-	getById: async (req: Request, res: Response, next: any) => {
-		try {
-			const { _id } = req.params;
-			const product = await productDao.getSingle(_id);
-			if (!product) {
-				res.status(404).send(`Product with id: ${_id} not found!`);
-			} else {
-				return res.status(200).send(product);
-			}
-		} catch (error) {
-			next(error);
-		}
-	},
+   */
+  getById: async (req: Request, res: Response, next: any) => {
+    try {
+      const { _id } = req.params
+      const product = await productDao.getSingle(_id)
+      if (!product) {
+        res.status(404).send(`Product with id: ${_id} not found!`)
+      } else {
+        return res.status(200).send(product)
+      }
+    } catch (error) {
+      next(error)
+    }
+  },
 
-	/**
-	 * Create new controller
+  /**
+   * Create new controller
    * @async
-	 */
-	create: async (req: Request, res: Response, next: any) => {
-		try {
-			const data = await productDao.add(req.body);
-			return res.status(201).json(data);
-		} catch (error) {
-			next(error);
-		}
-	},
+   */
+  create: async (req: Request, res: Response, next: any) => {
+    try {
+      const data = await productDao.add(req.body)
+      return res.status(201).json(data)
+    } catch (error) {
+      next(error)
+    }
+  },
 
-	/**
-	 * Update one by _id controller
+  /**
+   * Update one by _id controller
    * @async
-	 */
-	updateById: async (req: Request, res: Response, next: any) => {
-		try {
-			const { _id } = req.params;
-			const data = await productDao.update(_id, req.body);
-			return res.status(200).json(data);
-		} catch (error) {
-			next(error);
-		}
-	},
+   */
+  updateById: async (req: Request, res: Response, next: any) => {
+    try {
+      const { _id } = req.params
+      const contact: IContact = req.body as IContact
+      const data = await productDao.update(_id, req.body)
+      return res.status(200).json(data)
+    } catch (error) {
+      next(error)
+    }
+  },
 
-	/**
-	 * Delete one by _id controller
+  /**
+   * Delete one by _id controller
    * @async
-	 */
-	deleteById: async (req: Request, res: Response, next: any) => {
-		try {
-			const { _id } = req.params;
-			await productDao.delete(_id);
-			return res.status(200).end();
-		} catch (error) {
-			next(error);
-		}
-	}
-};
+   */
+  deleteById: async (req: Request, res: Response, next: any) => {
+    try {
+      const { _id } = req.params
+      await productDao.delete(_id)
+      return res.status(200).end()
+    } catch (error) {
+      next(error)
+    }
+  },
+}
