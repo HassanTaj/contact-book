@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Constants } = require('./constants');
-const { ContactSchema } = require('./contact');
 const Schema = mongoose.Schema;
 
 const ContactPhoneSchema = new Schema({

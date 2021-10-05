@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('./mongoose');
 const baseRouter = require('./routes/index.route');
+const middleware = require('./middleware/global-middleware');
+const passport =  require('passport');
 
 const app = express();
 
@@ -8,6 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(cors({ origin: '*' }));
+
+app.use(passport.initialize());
+middleware.Configure(app);
+
 
 const port = 5000;
 app.listen(port, () => {

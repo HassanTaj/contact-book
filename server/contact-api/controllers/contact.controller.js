@@ -1,15 +1,16 @@
-const Contact = require('../models/contact');
+const { Contact } = require('../models/contact');
 const ObjId = require('mongoose').Types.ObjectId;
 
-export default {
+module.exports = {
 	get(req, res, next) {
+		console.log('processing started')
 		Contact.find((err, doc) => {
 			if (err) {
 				console.log('error dude error');
 			} else {
 				res.send(doc);
 			}
-		})
+		});
 	},
 
 	getSingle(req, res, next) {
@@ -95,7 +96,7 @@ export default {
 		}
 
 	},
-	delete:(req, res, next) => {
+	delete: (req, res, next) => {
 		let id = req.params.id;
 		if (ObjId.isValid(id)) {
 			Contact.findByIdAndRemove(id, (err, doc) => {
@@ -108,6 +109,6 @@ export default {
 		} else {
 			return res.status(400).send();
 		}
-	
+
 	}
 };

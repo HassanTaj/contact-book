@@ -4,5 +4,6 @@ module.exports.Constants = {
         CONTACT_PHONE: 'ContactPhone',
         CONTACT_MAIL: 'ContactEmail',
         CONTACT_TYPE: 'ContactType',
+        USER:'User'
     }
 }
