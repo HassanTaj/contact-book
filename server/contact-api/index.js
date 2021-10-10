@@ -4,6 +4,7 @@ const mongoose = require('./mongoose');
 const baseRouter = require('./routes/index.route');
 const middleware = require('./middleware/global-middleware');
 const passport =  require('passport');
+const multer = require('multer');
 
 const app = express();
 
