@@ -1,11 +1,10 @@
 import passport from 'passport';
-import { BasicStrategy, DigestStrategy } from 'passport-http';
-import { Strategy, ExtractJwt } from 'passport-jwt';
+import PassportHttp from 'passport-http';
+import PassportJwt from 'passport-jwt';
+const { BasicStrategy, DigestStrategy } = PassportHttp;
 
-const JwtStrategy = Strategy;
-
-import User  from '../models/user.js';
-
+import UserModule from '../models/user.js';
+const { User } = UserModule;
 //TODO: npm install passport-http
 
 const AuthStrategies = {
@@ -49,11 +48,11 @@ class AuthFactory {
 
 		if (authType == AuthStrategies.JWT) {
 			var opts = {}
-			opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+			opts.jwtFromRequest = PassportJwt.ExtractJwt.fromAuthHeaderAsBearerToken();
 			opts.secretOrKey = 'this is my secret shit';
 			// opts.issuer = 'accounts.examplesoft.com';
 			// opts.audience = 'yoursite.net';
-			this.stragegy = new JwtStrategy(opts, function (payload, done) {
+			this.stragegy = new PassportJwt.Strategy(opts, function (payload, done) {
 				User.findOne({ id: payload.sub }, function (err, user) {
 					if (err) {
 						return done(err, false);
@@ -78,7 +77,7 @@ class AuthFactory {
 export default {
 	AuthFactory,
 	AuthStrategies,
-	configurePassport: (passport) => {
+	configurePassport: () => {
 		passport.use(new AuthFactory(AuthStrategies.JWT).AuthStrategy);
 	}
 }

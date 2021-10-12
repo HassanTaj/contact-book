@@ -1,4 +1,5 @@
-import User from "../models/user.js";
+import UserModule from "../models/user.js";
+const { User } = UserModule;
 import Jwt from "jsonwebtoken";
 const { sign } = Jwt;
 

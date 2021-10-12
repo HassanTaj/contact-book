@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
-import Contact from '../models/contact.js';
-const { Types, ObjectId } = mongoose;
+import ContactModule from '../models/contact.js';
+const { Contact } = ContactModule;
+import multer from 'multer';
+
+const { Types } = mongoose;
+const { ObjectId } = Types;
 
 const ObjId = ObjectId;
 
@@ -113,6 +117,10 @@ export default {
 		} else {
 			return res.status(400).send();
 		}
+
+	},
+
+	uploadPic(req, res, next) {
 
 	}
 };
