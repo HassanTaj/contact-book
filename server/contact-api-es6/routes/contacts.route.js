@@ -9,7 +9,7 @@ import { MulterConfigFactory, StorageType } from '../middleware/multer.js';
 
 router.get('/', passport.authenticate(AuthStrategies.JWT, { session: false }), controller.get);
 router.get('/:id', controller.getSingle);
-router.post('/', multer(new MulterConfigFactory(StorageType.DISK_STORAGE).CurrentConfig).single('image'), controller.post);
+router.post('/', multer({ storage: new MulterConfigFactory(StorageType.DISK_STORAGE).CurrentConfig }).single('image'), controller.post);
 router.put('/:id', controller.put);
 router.delete('/:id', controller.delete);
 

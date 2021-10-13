@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import ContactModule from '../models/contact.js';
 const { Contact } = ContactModule;
 import multer from 'multer';
+import { json } from 'express';
 
 const { Types } = mongoose;
 const { ObjectId } = Types;
@@ -37,16 +38,9 @@ export default {
 	},
 
 	post(req, res, next) {
-		let contact = new Contact();
-		contact.FirstName = req.body.FirstName;
-		contact.LastName = req.body.LastName;
-		contact.Address = req.body.Address;
-		contact.City = req.body.City;
-		contact.Country = req.body.Country;
-		contact.PostalCode = req.body.PostalCode;
-		contact.About = req.body.About;
-		contact.PhoneNumbers = req.body.PhoneNumbers;
-		contact.Emails = req.body.Emails;
+		let model = JSON.parse(req.body.model)
+		model.ImagePath = `${req.protocol}://${req.get('host')}/media/images/${req.file.filename}`
+		let contact = new Contact(model);
 
 		contact.save((err, doc) => {
 			if (err) {
@@ -59,7 +53,7 @@ export default {
 					Contact.findByIdAndUpdate(contact._id, {
 						$set: contact
 					}, { new: true })
-				}
+				}9
 				if (!!contact.Emails && !!contact.Emails.length) {
 					Array.from(contact.Emails).forEach(n => {
 						n.ContactRef = contact._id;

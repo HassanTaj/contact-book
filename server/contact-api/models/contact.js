@@ -12,6 +12,7 @@ const ContactSchema = new Schema({
     Country: { type: String },
     PostalCode: { type: String },
     About: { type: String },
+    ImagePath: { type: String },
     PhoneNumbers: [ContactPhoneSchema],
     Emails: [ContactEmailSchema]
 });

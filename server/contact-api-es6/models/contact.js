@@ -15,7 +15,7 @@ const ContactSchema = new mongoose.Schema({
     Country: { type: String },
     PostalCode: { type: String },
     About: { type: String },
-    PictureUrl: { type: String },
+    ImagePath: { type: String },
     PhoneNumbers: [ContactPhoneSchema],
     Emails: [ContactEmailSchema]
 });

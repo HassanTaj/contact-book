@@ -13,4 +13,5 @@ export class Contact {
 
   public PhoneNumbers?: ContactPhone[];
   public Emails?: ContactEmail[];
+  public image?: File;
 }

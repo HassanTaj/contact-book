@@ -11,7 +11,16 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
-app.use(cors({ origin: '*' }));
+// app.use(cors({ origin: '*' }));
+app.use(cors());
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Headers', "*");
+//     res.setHeader('Access-Control-Allow-Origin',
+//         'Origin, X-Requested-With, Content-Type, Accept');
+//     res.setHeader('Access-Control-Allow-Methods',
+//         'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+//     next();
+// })
 
 app.use(passport.initialize());
 Configure(app);
