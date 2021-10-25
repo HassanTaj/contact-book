@@ -53,7 +53,7 @@ export default {
 					Contact.findByIdAndUpdate(contact._id, {
 						$set: contact
 					}, { new: true })
-				}9
+				}
 				if (!!contact.Emails && !!contact.Emails.length) {
 					Array.from(contact.Emails).forEach(n => {
 						n.ContactRef = contact._id;
