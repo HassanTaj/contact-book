@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import contactRoutes from './contacts.route.js';
-import authRoutes from './auth.route.js';
+import { ContactRoutes } from './contacts.route.js';
+import { AuthRoutes} from './auth.route.js';
 
-// import Router from 'express';
-// import contactRoutes from './contacts.route';
-// import authRoutes from './auth.route';
-
-
-const router = new Router();
-router.use('/contacts', contactRoutes);
-router.use('/auth', authRoutes);
-
-export default router
+export class BaseRouter {
+	static Init() {
+		const router = new Router();
+		// configure app routes here
+		router.use('/contacts/', ContactRoutes.Init());
+		// router.use('/contacts', ContactRoutes.);
+		router.use('/auth', AuthRoutes.Init());
+		return router;
+	}
+};

@@ -1,17 +1,23 @@
 import { Router } from 'express';
-const router = new Router();
-import controller from '../controllers/contact.controller.js';
 import passport from 'passport';
-import PassportJwtModule from '../middleware/passport-jwt.js';
-const { AuthStrategies } = PassportJwtModule;
+import { AuthStrategies } from '../middleware/passport-jwt.js';
 import multer from 'multer';
-import { MulterConfigFactory, StorageType } from '../middleware/multer.js';
+import { MulterConfig, StorageType } from '../middleware/multer.js';
+import { ContactController } from "../controllers/contact.controller.js";
 
-router.get('/', passport.authenticate(AuthStrategies.JWT, { session: false }), controller.get);
-router.get('/:id', controller.getSingle);
-router.post('/', multer({ storage: new MulterConfigFactory(StorageType.DISK_STORAGE).CurrentConfig }).single('image'), controller.post);
-router.put('/:id', controller.put);
-router.delete('/:id', controller.delete);
+export class ContactRoutes {
+	static Init() {
+		const router = new Router();
+		// router.get('/', passport.authenticate(AuthStrategies.JWT, { session: false }), ContactController.get);
+		router.get('', ContactController.get);
+		router.get(':id', ContactController.getSingle);
+		router.post('', multer({ storage: MulterConfig.Init(StorageType.DISK_STORAGE) }).single('image'), ContactController.post);
+		router.put(':id', ContactController.put);
+		router.delete(':id', ContactController.delete);
 
-
-export default router
+		const subRouter =  new Router();
+		subRouter.get('/deleteall', ContactController.deleteAll);
+		router.use('/',subRouter);
+		return router;
+	}
+}

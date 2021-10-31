@@ -6,13 +6,9 @@ const MIME_TYPE_MAP = {
 	'image/jpg': 'jpg',
 }
 
-export const StorageType = {
-	DISK_STORAGE: 1
-}
-
-export class MulterConfigFactory {
-	constructor(storageType) {
-		this.config = null;
+export class MulterConfig {
+	static Init(storageType) {
+		let currentStorage = null;
 		if (storageType == StorageType.DISK_STORAGE) {
 			const localFileStorage = multer.diskStorage({
 				destination: (req, file, cb) => {
@@ -33,11 +29,12 @@ export class MulterConfigFactory {
 					cb(null, finalName)
 				}
 			});
-			this.config= localFileStorage;
+			currentStorage= localFileStorage;
 		}
+		return currentStorage;
 	}
+}
 
-	get CurrentConfig(){
-		return this.config;
-	}
+export const StorageType = {
+	DISK_STORAGE: 1
 }

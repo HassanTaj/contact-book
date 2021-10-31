@@ -1,26 +1,17 @@
 import passport from 'passport';
 import PassportHttp from 'passport-http';
-import PassportJwt from 'passport-jwt';
+import PassportJwt, { Strategy } from 'passport-jwt';
+import { AppConfig } from '../config/app-config.js';
 const { BasicStrategy, DigestStrategy } = PassportHttp;
 
-import UserModule from '../models/user.js';
-const { User } = UserModule;
-//TODO: npm install passport-http
-
-const AuthStrategies = {
-	BASIC: 'basic',
-	JWT: 'jwt',
-	DIGEST: 'digest'
-}
-
-class AuthFactory {
-	constructor(authType) {
-		this.stragegy = null;
-
+import { User } from './../models/user.js'
+export class PassportAuthConfig {
+	static Init(authType) {
+		let currentStrategy = null;
 		if (authType == AuthStrategies.BASIC) {
-			this.stragegy = new BasicStrategy(
+			currentStrategy = new BasicStrategy(
 				function (Email, Password, done) {
-					User.findOne({ Email: Email }, function (err, user) {
+					User.Collection.findOne({ Email: Email }, function (err, user) {
 						if (err) { return done(err); }
 						if (!user) { return done(null, false); }
 						if (!user.validPassword(Password)) { return done(null, false); }
@@ -31,9 +22,9 @@ class AuthFactory {
 		}
 
 		if (authType == AuthStrategies.DIGEST) {
-			this.stragegy = new DigestStrategy({ qop: 'auth' },
+			currentStrategy = new DigestStrategy({ qop: 'auth' },
 				function (Email, done) {
-					User.findOne({ Email: Email }, function (err, user) {
+					User.Collection.findOne({ Email: Email }, function (err, user) {
 						if (err) { return done(err); }
 						if (!user) { return done(null, false); }
 						return done(null, user, user.Password);
@@ -49,14 +40,15 @@ class AuthFactory {
 		if (authType == AuthStrategies.JWT) {
 			var opts = {}
 			opts.jwtFromRequest = PassportJwt.ExtractJwt.fromAuthHeaderAsBearerToken();
-			opts.secretOrKey = 'this is my secret shit';
+			opts.secretOrKey = AppConfig.Current.Secret;
 			// opts.issuer = 'accounts.examplesoft.com';
 			// opts.audience = 'yoursite.net';
-			this.stragegy = new PassportJwt.Strategy(opts, function (payload, done) {
-				User.findOne({ id: payload.sub }, function (err, user) {
+			currentStrategy = new PassportJwt.Strategy(opts, function (payload, done) {
+				User.Collection.findOne({ id: payload.sub }, function (err, user) {
 					if (err) {
 						return done(err, false);
 					}
+					
 					if (user) {
 						return done(null, user);
 					} else {
@@ -67,17 +59,12 @@ class AuthFactory {
 			});
 		}
 
-	}
-
-	get AuthStrategy() {
-		return this.stragegy;
+		return currentStrategy
 	}
 }
 
-export default {
-	AuthFactory,
-	AuthStrategies,
-	configurePassport: () => {
-		passport.use(new AuthFactory(AuthStrategies.JWT).AuthStrategy);
-	}
+export const AuthStrategies = {
+	BASIC: 'basic',
+	JWT: 'jwt',
+	DIGEST: 'digest'
 }

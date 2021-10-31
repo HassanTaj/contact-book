@@ -5,5 +5,5 @@ export const Constants = {
         CONTACT_MAIL: 'ContactEmail',
         CONTACT_TYPE: 'ContactType',
         USER:'User'
-    }
+    },
 }

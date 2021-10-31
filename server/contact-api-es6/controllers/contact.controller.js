@@ -1,30 +1,28 @@
 import mongoose from 'mongoose';
-import ContactModule from '../models/contact.js';
-const { Contact } = ContactModule;
-import multer from 'multer';
-import { json } from 'express';
+import { Contact } from '../models/contact.js';
+
 
 const { Types } = mongoose;
 const { ObjectId } = Types;
 
 const ObjId = ObjectId;
 
-export default {
-	get(req, res, next) {
+export class ContactController {
+	static get(req, res, next) {
 		console.log('processing started')
-		Contact.find((err, doc) => {
+		Contact.Collection.find((err, doc) => {
 			if (err) {
 				console.log('error dude error');
 			} else {
 				res.send(doc);
 			}
 		});
-	},
+	}
 
-	getSingle(req, res, next) {
+	static getSingle(req, res, next) {
 		let id = req.params.id;
 		if (ObjId.isValid(id)) {
-			Contact.findById(id, (err, doc) => {
+			Contact.Collection.findById(id, (err, doc) => {
 				if (err) {
 					console.log('error dude error');
 				} else {
@@ -35,12 +33,12 @@ export default {
 			return res.status(400).send();
 		}
 
-	},
+	}
 
-	post(req, res, next) {
+	static post(req, res, next) {
 		let model = JSON.parse(req.body.model)
 		model.ImagePath = `${req.protocol}://${req.get('host')}/media/images/${req.file.filename}`
-		let contact = new Contact(model);
+		let contact = new Contact.Collection(model);
 
 		contact.save((err, doc) => {
 			if (err) {
@@ -50,7 +48,7 @@ export default {
 					Array.from(contact.PhoneNumbers).forEach(n => {
 						n.ContactRef = contact._id;
 					});
-					Contact.findByIdAndUpdate(contact._id, {
+					Contact.Collection.findByIdAndUpdate(contact._id, {
 						$set: contact
 					}, { new: true })
 				}
@@ -58,22 +56,21 @@ export default {
 					Array.from(contact.Emails).forEach(n => {
 						n.ContactRef = contact._id;
 					});
-					Contact.findByIdAndUpdate(contact._id, {
+					Contact.Collection.findByIdAndUpdate(contact._id, {
 						$set: contact
 					}, { new: true })
 				}
 				console.log(contact)
 				console.log(contact.PhoneNumbers)
 				res.send(doc);
-
 			}
 		});
-	},
+	}
 
-	put(req, res, next) {
+	static put(req, res, next) {
 		let id = req.params.id;
 		if (ObjId.isValid(id)) {
-			let Contact = {
+			let contact = {
 				FirstName: req.body.FirstName,
 				LastName: req.body.LastName,
 				Address: req.body.Address,
@@ -85,7 +82,7 @@ export default {
 				Emails: req.body.Emails
 			};
 
-			Contact.findByIdAndUpdate(id, { $set: Contact }, { new: true }, (err, doc) => {
+			Contact.Collection.findByIdAndUpdate(id, { $set: contact }, { new: true }, (err, doc) => {
 				if (err) {
 					console.log('error dude error');
 				} else {
@@ -96,12 +93,12 @@ export default {
 			return res.status(400).send();
 		}
 
-	},
+	}
 
-	delete(req, res, next) {
+	static delete(req, res, next) {
 		let id = req.params.id;
 		if (ObjId.isValid(id)) {
-			Contact.findByIdAndRemove(id, (err, doc) => {
+			Contact.Collection.findByIdAndRemove(id, (err, doc) => {
 				if (err) {
 					console.log('error dude error');
 				} else {
@@ -112,9 +109,14 @@ export default {
 			return res.status(400).send();
 		}
 
-	},
+	}
+	static deleteAll(req, res, next) {
+		Contact.Collection.remove({}, (err, doc) => {
+			res.status(200).send();
+		});
+	}
 
-	uploadPic(req, res, next) {
+	static uploadPic(req, res, next) {
 
 	}
 };

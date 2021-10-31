@@ -1,6 +1,6 @@
 {
-    "editor.fontSize": 18,
-    "editor.inlayHints.fontSize": 20,
-    "editor.codeLensFontSize": 20,
+    "editor.fontSize": 17,
+    "editor.inlayHints.fontSize": 17,
+    "editor.codeLensFontSize": 17,
     "editor.insertSpaces": false
 }

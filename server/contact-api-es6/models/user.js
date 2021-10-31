@@ -3,10 +3,13 @@ import { Constants } from './constants.js';
 
 const { Schema, model } = mongoose;
 
-const UserSchema = new Schema({
-	Email: { type: String, lowercase: true, unique: true },
-	Password: { type: String, required: true },
-});
+export class User {
+    static schema = new mongoose.Schema({
+		Email: { type: String, lowercase: true, unique: true },
+		Password: { type: String, required: true },
+	});
 
-const UserModel = model(`${Constants.Schema.USER}`, UserSchema, `${Constants.Schema.USER}s`);
-export default { User: UserModel, UserSchema: UserSchema };
+    static get Collection() {
+        return mongoose.model(`${Constants.Schema.USER}`, this.schema, `${Constants.Schema.USER}s`);
+    }
+}

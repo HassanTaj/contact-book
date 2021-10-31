@@ -3,6 +3,7 @@
     <div class="card-header d-flex justify-content-between">
       <h4 class="card-title">Contacts</h4>
       <div>
+        <button class="btn btn-info" (click)="deleteAll($event)">Delete All</button>
         <button class="btn btn-info" routerLink="/contacts/add">Add</button>
       </div>
     </div>
@@ -29,15 +30,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let contact of contacts">
+            <tr *ngFor="let c of contacts">
               <td>
-                Dakota Rice
+               <img src="{{c.ImagePath}}" [height]="30" [width]="30" alt="" srcset="">
               </td>
               <td>
-                Niger
+                {{c.FirstName}}
               </td>
               <td>
-                Oud-Turnhout
+                {{c.LastName}}
               </td>
               <td class="text-center">
                 $36,738

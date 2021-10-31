@@ -2,14 +2,13 @@ import mongoose  from 'mongoose';
 const { Schema, model } = mongoose;
 import { Constants } from './constants.js';
 
-const ContactEmailSchema = new Schema({
-  Email: { type: String },
-  Type: { type: Number }
-});
-
-const ContactEmailModel = mongoose.model(`${Constants.Schema.CONTACT_MAIL}`, ContactEmailSchema, `${Constants.Schema.CONTACT_MAIL}s`);
-
-export default {
-  ContactEmail: ContactEmailModel,
-  ContactEmailSchema: ContactEmailSchema
+export class ContactEmail {
+  static schema = new mongoose.Schema({
+    Email: { type: String },
+    Type: { type: Number }
+  })
+  static get Schema() { return this.schema; }
+  static get Collection() {
+      return mongoose.model(`${Constants.Schema.CONTACT_MAIL}`, this.schema, `${Constants.Schema.CONTACT_MAIL}s`);
+  }
 }

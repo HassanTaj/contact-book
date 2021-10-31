@@ -1,6 +1,5 @@
-<div >
+<div>
   <form class="row" #ngForm="ngForm" (ngSubmit)="ngForm.form.valid && save()">
-
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
@@ -10,9 +9,16 @@
           <div class="row">
             <div class="col-md-5 pr-md-1">
               <div class="form-group">
-                <label>Company (disabled)</label>
-                <input type="text" id="FirstName" name="FirstName" #FirstName="ngModel" [(ngModel)]="vm.FirstName" class="form-control form-control-info" placeholder="Company"
-                  value="Creative Code Inc.">
+                <label>First Name</label>
+                <input type="text" id="FirstName" name="FirstName" #FirstName="ngModel" [(ngModel)]="vm.FirstName"
+                  class="form-control form-control-info" placeholder="FirstName" value="Lee">
+              </div>
+            </div>
+            <div class="col-md-5 pr-md-1">
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="FirstName" name="FirstName" #LastName="ngModel" [(ngModel)]="vm.LastName"
+                  class="form-control form-control-info" placeholder="LastName" value="Haisen">
               </div>
             </div>
             <div class="col-md-3 px-md-1">
@@ -98,8 +104,8 @@
             <div class="block block-four"></div>
             <a href="javascript:void(0)">
               <input type="file" style="opacity: 0;" (change)="attachFile($event)" #fileInput name="image" id="image">
-              <img class="avatar" src="assets/dark_admin/assets/img/default-avatar.png" alt="..."
-                (click)="fileInput.click()">
+              <img class="avatar" [src]="(!!base64Url? base64Url : 'assets/dark_admin/assets/img/default-avatar.png')"
+                alt="..." (click)="fileInput.click()">
               <h5 class="title">Mike Andrew</h5>
             </a>
             <p class="description">
@@ -129,3 +135,5 @@
   </form>
 
 </div>
+
+<div *ngIf="loading==true" class="d-flex align-items-center justify-content-center align-content-center" style="height:100vh;z-index: 2000;position: absolute;left: 0;right: 0;top: 0;bottom: 0;background: #1d253bc9;cursor: progress;touch-action: none;pointer-events: none;"><i class="fa fa-spinner fa-5x fa-spin text-white"></i></div>

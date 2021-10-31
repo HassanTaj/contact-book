@@ -1,27 +1,24 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 import { Constants } from './constants.js';
-import mail from './contact-mail.js';
-import phone from './contact-phone.js';
+import { ContactPhone } from './contact-phone.js';
+import { ContactEmail } from './contact-mail.js';
 
-const { ContactPhoneSchema } = phone;
-const { ContactEmailSchema } = mail;
+export class Contact {
+    static schema = new mongoose.Schema({
+        FirstName: { type: String },
+        LastName: { type: String },
+        Address: { type: String },
+        City: { type: String },
+        Country: { type: String },
+        PostalCode: { type: String },
+        About: { type: String },
+        ImagePath: { type: String },
+        PhoneNumbers: [ContactPhone.Schema],
+        Emails: [ContactEmail.Schema]
+    });
 
-const ContactSchema = new mongoose.Schema({
-    FirstName: { type: String },
-    LastName: { type: String },
-    Address: { type: String },
-    City: { type: String },
-    Country: { type: String },
-    PostalCode: { type: String },
-    About: { type: String },
-    ImagePath: { type: String },
-    PhoneNumbers: [ContactPhoneSchema],
-    Emails: [ContactEmailSchema]
-});
-const ContactModel = mongoose.model(`${Constants.Schema.CONTACT}`, ContactSchema, `${Constants.Schema.CONTACT}s`);
-
-export default {
-    Contact: ContactModel,
-    ContactSchema: ContactSchema
+    static get Collection() {
+        return mongoose.model(`${Constants.Schema.CONTACT}`, this.schema, `${Constants.Schema.CONTACT}s`);
+    }
 }

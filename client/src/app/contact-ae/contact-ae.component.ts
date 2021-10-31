@@ -10,14 +10,17 @@ import { Contact } from 'src/lib/models/contact';
 })
 export class ContactAeComponent implements OnInit {
     public actionString?: string = "Add";
+    public base64Url = "";
     public vm: Contact = new Contact();
     public file?: File;
+    public loading = false;
 
-    constructor(router: Router, activeRoute: ActivatedRoute, private contactService: ContactsService) {
+    constructor(private router: Router, activeRoute: ActivatedRoute, private contactService: ContactsService) {
         activeRoute.params.subscribe((params: any) => {
             let id = Number(params["id"]);
             this.actionString = (!!id) ? "Edit" : "Add";
         });
+        this.loading = false;
     }
 
     ngOnInit(): void {
@@ -25,13 +28,26 @@ export class ContactAeComponent implements OnInit {
         //     this.vm = new Contact();
         // }
     }
-    attachFile(event:any) {
+
+    attachFile(event: any) {
         this.vm.image = event.target.files[0];
+
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = (evt: any) => {
+            this.base64Url = evt.target.result;
+        };
+    }
+
+    getDataUrl() {
+
     }
 
     save() {
-        this.contactService.save(this.vm!!).subscribe((res) => {
-            console.log(res);
+        this.loading = true;
+        this.contactService.save(this.vm).subscribe((res) => {
+           this.loading =  false;
+           this.router.navigate(['/contacts']);
         });
     }
 
