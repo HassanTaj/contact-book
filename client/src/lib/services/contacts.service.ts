@@ -13,7 +13,7 @@ export class ContactsService {
     return this.http.get(`${this.ep}${(!!id) ? '/id' : ''}`);
   }
 
-  public delete(id?: number) {
+  public delete(id?: string) {
     return this.http.delete(`${this.ep}/${id}`);
   }
   public deleteAll() {

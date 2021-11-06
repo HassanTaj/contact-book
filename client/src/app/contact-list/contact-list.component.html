@@ -16,13 +16,10 @@
                 #
               </th>
               <th>
-                Name
+                First Name
               </th>
               <th>
-                Contact
-              </th>
-              <th>
-                City
+                Last Name
               </th>
               <th class="text-center">
                 Salary
@@ -32,7 +29,7 @@
           <tbody>
             <tr *ngFor="let c of contacts">
               <td>
-               <img src="{{c.ImagePath}}" [height]="30" [width]="30" alt="" srcset="">
+               <img [src]="(!!c.ImagePath? c.ImagePath : 'assets/dark_admin/assets/img/default-avatar.png')" [height]="30" [width]="30" alt="" srcset="">
               </td>
               <td>
                 {{c.FirstName}}
@@ -41,7 +38,8 @@
                 {{c.LastName}}
               </td>
               <td class="text-center">
-                $36,738
+                <button class="btn btn-sm btn-info m-1" routerLink="/contacts/edit/{{c._id}}">Edit</button>
+                <button class="btn btn-sm btn-danger m-1" (click)="deleteRec(c)">Delete</button>
               </td>
             </tr>
           </tbody>

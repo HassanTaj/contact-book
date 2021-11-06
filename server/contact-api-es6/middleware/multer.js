@@ -20,8 +20,8 @@ export class MulterConfig {
 					cb(error, "media/images");
 				},
 				filename: (req, file, cb) => {
-					const name = file.originalname.toLowerCase().split(' ').join('_');
-					const ext = MIME_TYPE_MAP[file.mimetype];
+					const name = file?.originalname?.toLowerCase().split(' ').join('_');
+					const ext = MIME_TYPE_MAP[file?.mimetype];
 					let finalName = `${Date.now()}_${name}`;
 					if(!name.includes('.')){
 						finalName = `${Date.now()}_${name}.${ext}`;

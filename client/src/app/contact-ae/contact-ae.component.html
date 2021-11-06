@@ -11,14 +11,14 @@
               <div class="form-group">
                 <label>First Name</label>
                 <input type="text" id="FirstName" name="FirstName" #FirstName="ngModel" [(ngModel)]="vm.FirstName"
-                  class="form-control form-control-info" placeholder="FirstName" value="Lee">
+                  class="form-control form-control-info" placeholder="First Name" />
               </div>
             </div>
             <div class="col-md-5 pr-md-1">
               <div class="form-group">
                 <label>Last Name</label>
                 <input type="text" id="FirstName" name="FirstName" #LastName="ngModel" [(ngModel)]="vm.LastName"
-                  class="form-control form-control-info" placeholder="LastName" value="Haisen">
+                  class="form-control form-control-info" placeholder="Last Name" />
               </div>
             </div>
             <div class="col-md-3 px-md-1">
@@ -106,7 +106,7 @@
               <input type="file" style="opacity: 0;" (change)="attachFile($event)" #fileInput name="image" id="image">
               <img class="avatar" [src]="(!!base64Url? base64Url : 'assets/dark_admin/assets/img/default-avatar.png')"
                 alt="..." (click)="fileInput.click()">
-              <h5 class="title">Mike Andrew</h5>
+              <h5 class="title">{{FirstName.value}} {{LastName.value}}</h5>
             </a>
             <p class="description">
               Ceo/Co-Founder

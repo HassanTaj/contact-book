@@ -2,6 +2,7 @@ import { ContactEmail } from './contact-mail';
 import { ContactPhone } from './contact-phone';
 
 export class Contact {
+  public _id?: string;
   public Id?: number;
   public FirstName?: string;
   public LastName?: string;

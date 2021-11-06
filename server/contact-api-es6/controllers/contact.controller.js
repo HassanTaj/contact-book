@@ -37,7 +37,9 @@ export class ContactController {
 
 	static post(req, res, next) {
 		let model = JSON.parse(req.body.model)
-		model.ImagePath = `${req.protocol}://${req.get('host')}/media/images/${req.file.filename}`
+		if (req.file?.filename) {
+			model.ImagePath = `${req.protocol}://${req.get('host')}/media/images/${req.file.filename}`
+		}
 		let contact = new Contact.Collection(model);
 
 		contact.save((err, doc) => {
@@ -101,9 +103,7 @@ export class ContactController {
 			Contact.Collection.findByIdAndRemove(id, (err, doc) => {
 				if (err) {
 					console.log('error dude error');
-				} else {
-					res.send(doc);
-				}
+				} else { res.send(doc); }
 			})
 		} else {
 			return res.status(400).send();

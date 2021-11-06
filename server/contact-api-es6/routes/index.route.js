@@ -6,7 +6,7 @@ export class BaseRouter {
 	static Init() {
 		const router = new Router();
 		// configure app routes here
-		router.use('/contacts/', ContactRoutes.Init());
+		router.use('/contacts', ContactRoutes.Init());
 		// router.use('/contacts', ContactRoutes.);
 		router.use('/auth', AuthRoutes.Init());
 		return router;
