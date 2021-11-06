@@ -17,7 +17,7 @@ export class ContactsService {
     return this.http.delete(`${this.ep}/${id}`);
   }
   public deleteAll() {
-    return this.http.get(`${this.ep}/deleteAll`);
+    return this.http.delete(`${this.ep}/deleteAll`);
   }
 
   public save(obj?: Contact) {

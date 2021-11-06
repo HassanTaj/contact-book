@@ -10,18 +10,16 @@ export class ContactRoutes {
 		const router = new Router();
 		// router.get('/', passport.authenticate(AuthStrategies.JWT, { session: false }), ContactController.get);
 		router.route('/')
-		.get(ContactController.get)
-		.post(multer({ storage: MulterConfig.Init(StorageType.DISK_STORAGE) }).single('image'), ContactController.post);
+			.get(ContactController.get)
+			.post(multer({ storage: MulterConfig.Init(StorageType.DISK_STORAGE) }).single('image'), ContactController.post);
+
+		router.route('/deleteall').delete(ContactController.deleteAll);
 		
-		router.get('/:id',ContactController.getSingle);
+		router.get('/:id', ContactController.getSingle);
+		router.put('/:id', ContactController.put);
+		router.delete('/:id', ContactController.delete);
 
-		router.put('/:id',ContactController.put);
 
-		router.delete('/:id',ContactController.delete);
-
-		router.route('/deleteall/fuckem')
-		.delete(ContactController.deleteAll);
-		
 		return router;
 	}
 }

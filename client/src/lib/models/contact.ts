@@ -11,6 +11,7 @@ export class Contact {
   public Country?: string;
   public PostalCode?: string;
   public About?: string;
+  public ImagePath?: string;
 
   public PhoneNumbers?: ContactPhone[];
   public Emails?: ContactEmail[];

@@ -33,13 +33,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              "src/assets/dark_admin/assets/js/core/jquery.min.js",
-              "src/assets/dark_admin/assets/js/core/popper.min.js",
-              "src/assets/dark_admin/assets/js/core/bootstrap.min.js",
-              "src/assets/dark_admin/assets/js/plugins/perfect-scrollbar.jquery.min.js",
-              "src/assets/dark_admin/assets/js/black-dashboard.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
