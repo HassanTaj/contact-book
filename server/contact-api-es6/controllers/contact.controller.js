@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { Contact } from '../models/contact.js';
-
+import fs from 'fs';
 
 const { Types } = mongoose;
 const { ObjectId } = Types;
@@ -71,21 +71,16 @@ export class ContactController {
 
 	static put(req, res, next) {
 		let id = req.params.id;
+		let model = JSON.parse(req.body.model)
+		if (req.file?.filename) {
+			model.ImagePath = `${req.protocol}://${req.get('host')}/media/images/${req.file.filename}`
+		}
 		if (ObjId.isValid(id)) {
-			let contact = {
-				FirstName: req.body.FirstName,
-				LastName: req.body.LastName,
-				Address: req.body.Address,
-				City: req.body.City,
-				Country: req.body.Country,
-				PostalCode: req.body.PostalCode,
-				About: req.body.About,
-				PhoneNumbers: req.body.PhoneNumbers,
-				Emails: req.body.Emails
-			};
+			let contact = new Contact.Collection(model);
 
 			Contact.Collection.findByIdAndUpdate(id, { $set: contact }, { new: true }, (err, doc) => {
 				if (err) {
+					console.log(err)
 					console.log('error dude error');
 				} else {
 					res.send(doc);
@@ -103,17 +98,54 @@ export class ContactController {
 			Contact.Collection.findByIdAndRemove(id, (err, doc) => {
 				if (err) {
 					console.log('error dude error');
-				} else { res.send(doc); }
+				} else {
+					let path = String(doc.ImagePath)?.replace(`${req.protocol}://${req.get('host')}`, '.');
+					if (!!path) {
+						fs.unlink(path, (err) => {
+							if (err) {
+								console.log("unlink failed", err);
+							} else {
+								console.log("file deleted");
+							}
+						});
+					}
+					res.send(doc);
+				}
 			})
 		} else {
 			return res.status(400).send();
 		}
 
 	}
+	
 	static deleteAll(req, res, next) {
-		Contact.Collection.remove({}, (err, doc) => {
-			res.status(200).send();
+		// get all  the files
+		Contact.Collection.find((err, doc) => {
+			if (err) {
+				console.log('error dude error');
+			} else {
+				// get all the image paths out and delete them
+				let imagePaths = doc.map(x => x?.ImagePath);
+				imagePaths.forEach((url)=>{
+					let path = String(url)?.replace(`${req.protocol}://${req.get('host')}`, '.');
+					if (!!path) {
+						fs.unlink(path, (err) => {
+							if (err) {
+								console.log("unlink failed", err);
+							} else {
+								console.log("file deleted");
+							}
+						});
+					}
+				});
+			
+				// delete all the records  from db
+				Contact.Collection.deleteMany({}, (err, doc) => {
+					res.status(200).send();
+				});
+			}
 		});
+
 	}
 
 	static uploadPic(req, res, next) {

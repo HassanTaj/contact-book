@@ -17,16 +17,19 @@ export class ContactAeComponent implements OnInit {
 
     constructor(private router: Router, activeRoute: ActivatedRoute, private contactService: ContactsService) {
         activeRoute.params.subscribe((params: any) => {
-            let id = Number(params["id"]);
+            let id = params["id"];
             this.actionString = (!!id) ? "Edit" : "Add";
+            this.vm._id =  id;
         });
         this.loading = false;
     }
 
     ngOnInit(): void {
-        // if(!this.vm){
-        //     this.vm = new Contact();
-        // }
+        if(!!this.vm && !!this.vm?._id){
+         this.contactService.get(this.vm._id).subscribe((res:any)=>{
+             this.vm = res;
+         });
+        }
     }
 
     attachFile(event: any) {
