@@ -13,9 +13,9 @@ app.use(urlencoded({ extended: true }));
 // enable json
 app.use(json());
 
-// app.use(cors({ origin: '*' }));
+
 // enable cross origin resource sharing
-app.use(cors());
+app.use(cors()); // app.use(cors({ origin: '*' }));
 
 // middleware
 AppMiddleware.Init(app);

@@ -26,8 +26,6 @@ export class ContactsService {
     if (!!obj?.image) {
       data.append('image', obj?.image!!)
     }
-    // console.log(obj.image);
-    // console.log(data);
     let request = this.http.post(`${this.ep}`, data);
     if (!!obj?._id) {
       request = this.http.put(`${this.ep}${(!!obj._id) ? `/${obj._id}` : ''}`, data);
